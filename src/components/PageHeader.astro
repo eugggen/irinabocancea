@@ -13,14 +13,26 @@ const homeHref = url();
 ---
 
 <header class:list={["page-header", !backHref && "page-header--home"]}>
-  <a
-    class="site-brand font-display"
-    href={homeHref}
-    transition:name="site-brand"
-    transition:persist="site-brand"
-  >
-    {site.titleDisplay}
-  </a>
+  {
+    backHref ? (
+      <a
+        class="site-brand font-display"
+        href={homeHref}
+        transition:name="site-brand"
+        transition:persist="site-brand"
+      >
+        {site.titleDisplay}
+      </a>
+    ) : (
+      <span
+        class="site-brand font-display"
+        transition:name="site-brand"
+        transition:persist="site-brand"
+      >
+        {site.titleDisplay}
+      </span>
+    )
+  }
   {
     backHref ? (
       <PageBack href={backHref} label={backLabel} />
