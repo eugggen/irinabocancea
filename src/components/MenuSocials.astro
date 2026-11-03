@@ -1,0 +1,35 @@
+---
+import BrandIcon from "./BrandIcon.astro";
+import { site } from "../content";
+import { brandIconPaths } from "../lib/social-brand-icons";
+
+const socials = [
+  { href: site.instagram, label: "Instagram", path: brandIconPaths.instagram },
+  { href: site.facebook, label: "Facebook", path: brandIconPaths.facebook },
+  { href: site.linkedin, label: "LinkedIn", path: brandIconPaths.linkedin },
+] as const;
+---
+
+<li class="menu-social-row">
+  <div class="menu-mask">
+    <div class="menu-line" data-menu-line>
+      <ul class="menu-social-list">
+        {
+          socials.map((item) => (
+            <li>
+              <a
+                class="menu-social"
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={item.label}
+              >
+                <BrandIcon path={item.path} />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</li>

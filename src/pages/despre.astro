@@ -1,0 +1,29 @@
+---
+import Base from "../layouts/Base.astro";
+import Plate from "../components/Plate.astro";
+import ProseBody from "../components/ProseBody.astro";
+import { despre } from "../content";
+import { proseParagraphs } from "../lib/prose";
+
+const paragraphs = proseParagraphs(despre.paragraphs);
+---
+
+<Base title="Despre">
+  <div class="shell">
+    <article class="page page-split">
+      <div class="page-split-copy">
+        <h1 class="title font-display text-title" data-reveal>{despre.title}</h1>
+        <p class="body text-body" data-reveal>{despre.lead}</p>
+        <ProseBody paragraphs={paragraphs} />
+      </div>
+      <div class="page-split-media">
+        <Plate
+          src={despre.image}
+          alt={despre.imageAlt}
+          aspect="portrait"
+          sizes="(min-width: 48rem) 42vw, 88vw"
+        />
+      </div>
+    </article>
+  </div>
+</Base>

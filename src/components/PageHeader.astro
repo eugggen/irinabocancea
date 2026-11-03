@@ -1,0 +1,31 @@
+---
+import PageBack from "./PageBack.astro";
+import { site } from "../content";
+import { url } from "../lib/url";
+
+interface Props {
+  backHref?: string;
+  backLabel?: string;
+}
+
+const { backHref, backLabel = "Acasă" } = Astro.props;
+const homeHref = url();
+---
+
+<header class:list={["page-header", !backHref && "page-header--home"]}>
+  <a
+    class="site-brand font-display"
+    href={homeHref}
+    transition:name="site-brand"
+    transition:persist="site-brand"
+  >
+    {site.titleDisplay}
+  </a>
+  {
+    backHref ? (
+      <PageBack href={backHref} label={backLabel} />
+    ) : (
+      <span class="page-back page-back--spacer" aria-hidden="true"></span>
+    )
+  }
+</header>

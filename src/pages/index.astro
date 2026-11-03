@@ -1,0 +1,37 @@
+---
+import Base from "../layouts/Base.astro";
+import MenuSocials from "../components/MenuSocials.astro";
+import { menu, site } from "../content";
+import { url } from "../lib/url";
+---
+
+<Base title={site.name}>
+  <h1 class="sr-only">{site.name}</h1>
+  <div class="shell shell-home">
+    <nav class="menu-hero" aria-label="Secțiuni">
+      <ul class="menu-list">
+        {
+          menu
+            .filter((item) => item.path !== "")
+            .map((item) => (
+              <li>
+                <a
+                  class="menu-link font-display text-lockup"
+                  href={url(item.path)}
+                  aria-label={"marker" in item ? item.label : undefined}
+                >
+                  <span class="menu-mask">
+                    <span class="menu-line" data-menu-line>
+                      {item.label}
+                      {"marker" in item && <span class="menu-marker"> {item.marker}</span>}
+                    </span>
+                  </span>
+                </a>
+              </li>
+            ))
+        }
+        <MenuSocials />
+      </ul>
+    </nav>
+  </div>
+</Base>

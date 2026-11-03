@@ -1,0 +1,28 @@
+---
+interface Props {
+  href: string;
+  label: string;
+  variant?: "header" | "footer";
+}
+
+const { href, label, variant = "header" } = Astro.props;
+const isFooter = variant === "footer";
+---
+
+<a
+  class:list={["page-back", isFooter && "page-back--footer"]}
+  href={href}
+  aria-label={isFooter ? `Înapoi la ${label}` : label}
+>
+  <span class="page-back-mark" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M21 12H3M3 12l5-5M3 12l5 5"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"></path>
+    </svg>
+  </span>
+  {isFooter ? <span class="page-back-text text-body">Înapoi</span> : null}
+</a>

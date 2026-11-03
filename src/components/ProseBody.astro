@@ -1,0 +1,17 @@
+---
+interface Props {
+  paragraphs: string[];
+}
+
+const { paragraphs } = Astro.props;
+---
+
+<div class="body-stack">
+  {
+    paragraphs.map((paragraph) => (
+      <p class="text-body" data-reveal>
+        {paragraph}
+      </p>
+    ))
+  }
+</div>

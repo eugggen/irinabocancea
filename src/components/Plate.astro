@@ -1,0 +1,30 @@
+---
+import { Picture } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  sizes: string;
+  aspect?: "landscape" | "portrait";
+}
+
+const { src, alt, sizes, aspect = "landscape" } = Astro.props;
+---
+
+<div
+  class:list={["plate-frame", aspect === "portrait" && "plate-frame--portrait"]}
+  data-reveal-image
+>
+  <div class="plate-zoom">
+    <Picture
+      src={src}
+      alt={alt}
+      formats={["avif", "webp"]}
+      widths={[480, 800, 1200]}
+      sizes={sizes}
+      class="plate-image"
+      pictureAttributes={{ class: "plate-picture" }}
+    />
+  </div>
+</div>
