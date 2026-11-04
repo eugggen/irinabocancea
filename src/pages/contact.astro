@@ -1,6 +1,14 @@
 ---
 import Base from "../layouts/Base.astro";
+import BrandIcon from "../components/BrandIcon.astro";
 import { contact } from "../content";
+import { brandIconPaths } from "../lib/social-brand-icons";
+
+const iconByLabel = {
+  Instagram: brandIconPaths.instagram,
+  Facebook: brandIconPaths.facebook,
+  LinkedIn: brandIconPaths.linkedin,
+} as const;
 ---
 
 <Base title="Contact">
@@ -12,15 +20,20 @@ import { contact } from "../content";
           <a class="phone font-display text-plate" href={contact.phoneHref}>{contact.phone}</a>
           <div class="contact-meta text-body">
             <a href={`mailto:${contact.email}`}>{contact.email}</a>
-            <p>{contact.address}</p>
           </div>
         </div>
-        <ul class="socials text-quiet">
+        <ul class="socials socials--stack">
           {
             contact.socials.map((item) => (
               <li>
-                <a href={item.href} target="_blank" rel="noopener noreferrer">
-                  {item.label}
+                <a
+                  class="contact-social text-body"
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <BrandIcon path={iconByLabel[item.label]} />
+                  <span>{item.label}</span>
                 </a>
               </li>
             ))

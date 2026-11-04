@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import { getImage } from "astro:assets";
+import Lightbox from "../components/Lightbox.astro";
 import PageBack from "../components/PageBack.astro";
 import PageHeader from "../components/PageHeader.astro";
 import { site } from "../content";
@@ -71,8 +72,10 @@ const ogUrl = new URL(og.src, Astro.site);
         ) : null
       }
     </main>
+    <Lightbox />
     <script>
       import "../scripts/animations.ts";
+      import "../scripts/lightbox.ts";
     </script>
   </body>
 </html>

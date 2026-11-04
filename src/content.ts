@@ -1,19 +1,15 @@
 import type { ImageMetadata } from "astro";
-import despreImage from "./assets/despre.png";
-import eventSpecialist from "./assets/services/event-specialist.png";
-import weddingPlanning from "./assets/services/wedding-planning.png";
-import eventManagement from "./assets/services/event-management.png";
-import irisOrangerie from "./assets/services/iris-orangerie.png";
 import shareImage from "./assets/og.jpg";
+import { gallery } from "./lib/gallery";
 
 export const site = {
   name: "Irina Bocancea",
   titleDisplay: "IRINA BOCANCEA",
   description: "Planificare de evenimente și direcție creativă.",
   locale: "ro_RO",
-  instagram: "https://instagram.com/",
-  facebook: "https://facebook.com/",
-  linkedin: "https://linkedin.com/",
+  instagram: "https://www.instagram.com/irinabocancea/",
+  facebook: "https://www.facebook.com/irina.bocancea.3/",
+  linkedin: "https://ro.linkedin.com/in/irinabocancea",
   shareImage,
 } as const;
 
@@ -24,13 +20,13 @@ export const menu = [
   { path: "contact", label: "CONTACT" },
 ] as const;
 
-const placeholderAlt = "Suprafață goală, în așteptarea fotografiei.";
+const despreImages = gallery("despre");
 
 export const despre = {
   title: "Expertiză & formare profesională",
   lead: "Intuiție creativă susținută de structură și cunoaștere.",
-  image: despreImage,
-  imageAlt: placeholderAlt,
+  images: despreImages.slice(0, 2),
+  imageAlt: "Irina Bocancea",
   paragraphs: [
     "Cred că excelența în industria evenimentelor se construiește prin experiență, disciplină, curiozitate profesională și dorința continuă de evoluție.",
     "Dețin un MBA în Managementul Afacerilor și am urmat programe de specializare în Event Management și Wedding Planning la Londra, completând experiența practică printr-o perspectivă strategică asupra planificării, bugetării și managementului proiectelor.",
@@ -46,16 +42,29 @@ export type Service = {
   title: string;
   lead?: string;
   paragraphs: string[];
+  /** Paragraph count in the first body column (desktop / mobile split). */
+  proseSplitAfter?: number;
+  images: ImageMetadata[];
   image: ImageMetadata;
   imageAlt: string;
+  /** CSS object-position for gallery / listing crops (default: centered). */
+  imageObjectPosition?: string;
 };
+
+function serviceGallery(folder: string, title: string) {
+  const images = gallery(folder).slice(0, 4);
+  return {
+    images,
+    image: images[0],
+    imageAlt: title,
+  };
+}
 
 export const services: Service[] = [
   {
     slug: "event-specialist-creative-director",
     title: "Event specialist & creative director",
-    image: eventSpecialist,
-    imageAlt: placeholderAlt,
+    ...serviceGallery("event-specialist-creative-director", "Event specialist & creative director"),
     paragraphs: [
       "Cu o experiență de peste 19 ani în industria evenimentelor și un portofoliu de peste 1.000 de proiecte organizate, activitatea mea se situează la intersecția dintre concept, strategie creativă și management operațional.",
       "Parcursul profesional cuprinde o varietate amplă de proiecte, de la evenimente corporate, lansări de produse, conferințe și concerte, până la celebrări private și evenimente festive, fiecare construit în jurul unui context, al unor obiective și al unei identități proprii.",
@@ -67,8 +76,7 @@ export const services: Service[] = [
     slug: "wedding-planning-event-design",
     title: "Wedding planning & event design",
     lead: "O abordare personalizată. O identitate distinctă pentru fiecare eveniment.",
-    image: weddingPlanning,
-    imageAlt: placeholderAlt,
+    ...serviceGallery("wedding-planning-event-design", "Wedding planning & event design"),
     paragraphs: [
       "În ultimii 15 ani, activitatea mea s-a concentrat cu precădere asupra organizării de nunți, dezvoltând o abordare în care povestea, personalitatea și universul fiecărui cuplu reprezintă punctul de plecare al întregului concept.",
       "De la definirea direcției creative și selecția furnizorilor până la designul spațiului, construcția experienței și coordonarea întregului proces, fiecare componentă este integrată într-o viziune unitară.",
@@ -81,8 +89,8 @@ export const services: Service[] = [
     slug: "event-management-creative-production",
     title: "Event management & creative production",
     lead: "Experiență dincolo de convențional. De la evenimente intime la producții de amploare.",
-    image: eventManagement,
-    imageAlt: placeholderAlt,
+    imageObjectPosition: "50% 96%",
+    ...serviceGallery("event-management-creative-production", "Event management & creative production"),
     paragraphs: [
       "Experiența mea acoperă o varietate extinsă de formate și contexte: de la evenimente restrânse, cu 50 de invitați, până la producții de amploare, cu până la 3.000 de participanți.",
       "Am conceput și coordonat evenimente corporate, lansări de produse, inaugurări de locații, evenimente de companie, conferințe, seminarii, concerte, teambuildinguri și evenimente private, desfășurate atât în România, cât și în destinații internaționale.",
@@ -95,8 +103,9 @@ export const services: Service[] = [
     slug: "iris-orangerie",
     title: "Iris Orangerie",
     lead: "A different perspective on events. Architecture, nature & experiences.",
-    image: irisOrangerie,
-    imageAlt: placeholderAlt,
+    imageObjectPosition: "50% 96%",
+    proseSplitAfter: 3,
+    ...serviceGallery("iris-orangerie", "Iris Orangerie"),
     paragraphs: [
       "Iris Orangerie reprezintă una dintre cele mai importante extensii ale parcursului meu profesional și antreprenorial. În calitate de cofondator, Business Developer și Event Director, sunt implicată direct în dezvoltarea și consolidarea unui concept distinct în industria evenimentelor din România: prima sală premium de evenimente din țară.",
       "Concepută ca un spațiu în care arhitectura și natura se completează firesc, Iris Orangerie propune o alternativă la spațiile convenționale pentru evenimente, oferind un cadru cu identitate vizuală proprie și un potențial creativ aparte.",
@@ -110,14 +119,13 @@ export const services: Service[] = [
 ];
 
 export const contact = {
-  phone: "+40 700 000 000",
-  phoneHref: "tel:+40700000000",
-  email: "contact@example.com",
-  address: "Strada Exemplu nr. 1, București",
+  phone: "+40 725 360 924",
+  phoneHref: "tel:+40725360924",
+  email: "contact@irinabocancea.ro",
   socials: [
-    { label: "Instagram", href: "https://instagram.com/" },
-    { label: "Facebook", href: "https://facebook.com/" },
-    { label: "LinkedIn", href: "https://linkedin.com/" },
+    { label: "Instagram", href: "https://www.instagram.com/irinabocancea/" },
+    { label: "Facebook", href: "https://www.facebook.com/irina.bocancea.3/" },
+    { label: "LinkedIn", href: "https://ro.linkedin.com/in/irinabocancea" },
   ],
   form: {
     name: "Nume",

@@ -1,0 +1,107 @@
+---
+import type { ImageMetadata } from "astro";
+import Plate from "./Plate.astro";
+import ProseBody from "./ProseBody.astro";
+
+interface Props {
+  title: string;
+  lead?: string;
+  paragraphs: string[];
+  proseSplitAfter?: number;
+  images: ImageMetadata[];
+  imageAlt: string;
+  imageObjectPosition?: string;
+  galleryLayout?: "strip" | "sidebar";
+}
+
+const {
+  title,
+  lead,
+  paragraphs,
+  proseSplitAfter,
+  images,
+  imageAlt,
+  imageObjectPosition,
+  galleryLayout = "strip",
+} = Astro.props;
+const bottom = images.slice(2, 4);
+const split = bottom.length > 0;
+const midpoint =
+  proseSplitAfter ??
+  (split ? Math.ceil(paragraphs.length / 2) : paragraphs.length);
+const opening = paragraphs.slice(0, midpoint);
+const closing = paragraphs.slice(midpoint);
+const sidebar = galleryLayout === "sidebar";
+---
+
+<article class:list={["story", "page", sidebar && "story--sidebar"]}>
+  {
+    sidebar ? (
+      <div class="story-sidebar-copy">
+        <h1 class="story-heading title font-display text-title" data-reveal>{title}</h1>
+        {
+          lead ? (
+            <p class="story-lead body text-body" data-reveal>
+              {lead}
+            </p>
+          ) : null
+        }
+        <div class="story-body">
+          <div class="story-prose">
+            <ProseBody paragraphs={opening} />
+          </div>
+          {
+            closing.length ? (
+              <div class="story-prose story-prose--rest">
+                <ProseBody paragraphs={closing} />
+              </div>
+            ) : null
+          }
+        </div>
+      </div>
+    ) : (
+      <>
+        <h1 class="story-heading title font-display text-title" data-reveal>{title}</h1>
+        {
+          lead ? (
+            <p class="story-lead body text-body" data-reveal>
+              {lead}
+            </p>
+          ) : null
+        }
+      </>
+    )
+  }
+  <div class="story-gallery">
+    {
+      images.map((src, index) => (
+        <div class="story-figure">
+          <Plate
+            src={src}
+            alt={`${imageAlt}, fotografie ${index + 1}`}
+            aspect="grid"
+            sizes="(min-width: 48rem) 22vw, 46vw"
+            lightbox
+            objectPosition={imageObjectPosition}
+          />
+        </div>
+      ))
+    }
+  </div>
+  {
+    sidebar ? null : (
+      <div class="story-body">
+        <div class="story-prose">
+          <ProseBody paragraphs={opening} />
+        </div>
+        {
+          closing.length ? (
+            <div class="story-prose story-prose--rest">
+              <ProseBody paragraphs={closing} />
+            </div>
+          ) : null
+        }
+      </div>
+    )
+  }
+</article>

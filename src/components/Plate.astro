@@ -6,15 +6,23 @@ interface Props {
   src: ImageMetadata;
   alt: string;
   sizes: string;
-  aspect?: "landscape" | "portrait";
+  aspect?: "landscape" | "portrait" | "grid";
+  lightbox?: boolean;
+  objectPosition?: string;
 }
 
-const { src, alt, sizes, aspect = "landscape" } = Astro.props;
+const { src, alt, sizes, aspect = "landscape", lightbox = false, objectPosition } = Astro.props;
 ---
 
 <div
-  class:list={["plate-frame", aspect === "portrait" && "plate-frame--portrait"]}
+  class:list={[
+    "plate-frame",
+    aspect === "portrait" && "plate-frame--portrait",
+    aspect === "grid" && "plate-frame--grid",
+    lightbox && "plate-frame--lightbox",
+  ]}
   data-reveal-image
+  {...(lightbox ? { "data-lightbox": "" } : {})}
 >
   <div class="plate-zoom">
     <Picture
@@ -24,6 +32,7 @@ const { src, alt, sizes, aspect = "landscape" } = Astro.props;
       widths={[480, 800, 1200]}
       sizes={sizes}
       class="plate-image"
+      style={objectPosition ? { objectPosition } : undefined}
       pictureAttributes={{ class: "plate-picture" }}
     />
   </div>

@@ -1,7 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
-import Plate from "../../components/Plate.astro";
-import ProseBody from "../../components/ProseBody.astro";
+import Story from "../../components/Story.astro";
 import { services, type Service } from "../../content";
 import { proseParagraphs } from "../../lib/prose";
 
@@ -22,26 +21,14 @@ const paragraphs = proseParagraphs(service.paragraphs);
 
 <Base title={service.title}>
   <div class="shell">
-    <article class="page page-split">
-      <div class="page-split-copy">
-        <h1 class="title font-display text-title" data-reveal>{service.title}</h1>
-        {
-          service.lead ? (
-            <p class="body text-body" data-reveal>
-              {service.lead}
-            </p>
-          ) : null
-        }
-        <ProseBody paragraphs={paragraphs} />
-      </div>
-      <div class="page-split-media">
-        <Plate
-          src={service.image}
-          alt={service.imageAlt}
-          aspect="portrait"
-          sizes="(min-width: 48rem) 42vw, 88vw"
-        />
-      </div>
-    </article>
+    <Story
+      title={service.title}
+      lead={service.lead}
+      paragraphs={paragraphs}
+      proseSplitAfter={service.proseSplitAfter}
+      images={service.images}
+      imageAlt={service.imageAlt}
+      imageObjectPosition={service.imageObjectPosition}
+    />
   </div>
 </Base>
