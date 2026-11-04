@@ -1,6 +1,7 @@
 ---
 import PageBack from "./PageBack.astro";
 import { site } from "../content";
+import { isHomePath } from "../lib/nav";
 import { url } from "../lib/url";
 
 interface Props {
@@ -10,27 +11,19 @@ interface Props {
 
 const { backHref, backLabel = "Acasă" } = Astro.props;
 const homeHref = url();
+const onHome = isHomePath(Astro.url.pathname);
 ---
 
-<header class:list={["page-header", !backHref && "page-header--home"]}>
+<header class:list={["page-header", onHome && "page-header--home"]}>
   {
-    backHref ? (
-      <a
-        class="site-brand font-display"
-        href={homeHref}
-        transition:name="site-brand"
-        transition:persist="site-brand"
-      >
-        {site.titleDisplay}
-      </a>
-    ) : (
-      <span
-        class="site-brand font-display"
-        transition:name="site-brand"
-        transition:persist="site-brand"
-      >
+    onHome ? (
+      <span class="site-brand font-display" transition:name="site-brand">
         {site.titleDisplay}
       </span>
+    ) : (
+      <a class="site-brand font-display" href={homeHref} transition:name="site-brand">
+        {site.titleDisplay}
+      </a>
     )
   }
   {

@@ -498,14 +498,13 @@ a {
   width: 100%;
 }
 
-.field input,
+.field input:not([type="checkbox"]),
 .field textarea {
   width: 100%;
   margin: 0;
   padding-block: calc(var(--unit-y) * 2);
-  padding-inline: 0;
-  border: 0;
-  border-bottom: 1px solid var(--color-ink);
+  padding-inline: calc(var(--unit-x) * 3);
+  border: 1px solid var(--color-ink);
   border-radius: 0;
   background: transparent;
   color: inherit;
@@ -555,7 +554,7 @@ a {
   accent-color: var(--color-ink);
 }
 
-.field input:-webkit-autofill,
+.field input:not([type="checkbox"]):-webkit-autofill,
 .field textarea:-webkit-autofill {
   -webkit-text-fill-color: var(--color-ink);
   caret-color: var(--color-ink);
@@ -656,6 +655,10 @@ a {
   .page-split-copy .title {
     text-wrap: balance;
     overflow-wrap: break-word;
+  }
+
+  .page-back-footer {
+    justify-content: center;
   }
 }
 
